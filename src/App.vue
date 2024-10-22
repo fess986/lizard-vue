@@ -10,4 +10,13 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import TheMenu from './components/TheMenu.vue'
+import { onMounted } from 'vue';
+import { useAppStore } from './stores/app';
+
+const app = useAppStore();
+
+onMounted(() => {
+  app.init();
+})
+
 </script>
