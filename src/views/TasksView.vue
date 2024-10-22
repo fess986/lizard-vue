@@ -13,3 +13,16 @@
     </ul>
   </div>
 </template>
+
+
+<script setup>
+import { onMounted } from 'vue'
+import supabase from '@/services/superbase';
+
+onMounted(() => {
+  supabase.from('tasks').select('*')  // получаем из таблицы tasks все данные
+    .then((data) => {  // так как получаем промис, то обработаем его с помощью then
+      console.log(data.data)  // в data объект с данными в поле data и другими данными о статусе и ошибке
+    })
+})
+</script>
