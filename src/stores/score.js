@@ -1,4 +1,8 @@
 import { defineStore } from "pinia";
+import debounce from "lodash.debounce";
+import { updateScore } from "@/api.js/app";
+
+const debounceUpdateScore = debounce(updateScore, 500);
 
 const baseScore = 25;
 
@@ -32,7 +36,7 @@ const getLevel = (score) => {
 
 export const useScoreStore = defineStore("score", {
 	state: () => ({
-		totalScore: 1,
+		totalScore: 20,
 	}),
 	getters: {
 		getTotalScore: (state) => state.totalScore, // всего очков
@@ -49,6 +53,8 @@ export const useScoreStore = defineStore("score", {
 		// для добавления очков
 		addScore(score = 1) {
 			this.totalScore += score;
+
+			debounceUpdateScore(this.totalScore);  // используем debounce для того чтобы минимизировать количество запросов на сервер
 		},
 		setScore(score) {
 			this.totalScore = score;
